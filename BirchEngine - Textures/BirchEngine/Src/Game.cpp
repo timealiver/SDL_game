@@ -1,6 +1,8 @@
 #include "Game.hpp"
-SDL_Texture* playerTex;
-SDL_Rect srcRect, destRect;
+#include "TextureManager.hpp"
+#include "GameObject.hpp"
+GameObject* player;
+GameObject* enemy;
 Game::Game()
 {}
 
@@ -32,9 +34,8 @@ void Game::init(const char* title,int width, int height, bool fullscreen)
 				isRunning = false;    // иначе, если что-то пошло не так, игра заканчивается, сл-но isRunning==false
 			}
 		}
-		SDL_Surface* tmpSurface = IMG_Load("assets/player.png");
-		playerTex = SDL_CreateTextureFromSurface(renderer, tmpSurface);
-		SDL_FreeSurface(tmpSurface);
+		player = new GameObject("assets/player.png", renderer,0,0);
+		enemy = new GameObject("assets/enemy.png", renderer, 100, 50);
 
 	}
 	else
@@ -59,17 +60,17 @@ void Game::handleEvents()
 void Game::update()
 {
 	cnt++;
-	destRect.h = 64;
-	destRect.w = 64;
-	destRect.x = cnt;
+	player->Update();
+	enemy->Update();
 	std::cout << cnt << std::endl;
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, playerTex, NULL, &destRect); //вторые два аргумента нужны для того, чтобы указать какую часть изображения вставлять в какую часть экрана.
-	// здесь будут добавляться штуки для рендера
+	player->Render();
+	enemy->Render();
+	//SDL_RenderCopy(renderer, playerTex, NULL, &destRect); (это есть в gameobject через texturemanager) вторые два аргумента нужны для того, чтобы указать какую часть изображения вставлять в какую часть экрана.
 	SDL_RenderPresent(renderer);
 };
 void Game::clean()
