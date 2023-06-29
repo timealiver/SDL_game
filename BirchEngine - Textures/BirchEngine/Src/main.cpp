@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
 
 	game = new Game();
-	game->init("BirchEngine", 800, 600, false);
+	game->init("BirchEngine", 800, 640, false);
 
 	while (game->running())
 	{

@@ -1,8 +1,11 @@
 #include "Game.hpp"
 #include "TextureManager.hpp"
 #include "GameObject.hpp"
+#include "Map.hpp"
 GameObject* player;
 GameObject* enemy;
+Map* map;
+SDL_Renderer* Game::renderer = nullptr;
 Game::Game()
 {}
 
@@ -34,8 +37,9 @@ void Game::init(const char* title,int width, int height, bool fullscreen)
 				isRunning = false;    // иначе, если что-то пошло не так, игра заканчивается, сл-но isRunning==false
 			}
 		}
-		player = new GameObject("assets/player.png", renderer,0,0);
-		enemy = new GameObject("assets/enemy.png", renderer, 100, 50);
+		player = new GameObject("assets/player.png",0,0);
+		enemy = new GameObject("assets/enemy.png",100,50);
+		map = new Map();
 
 	}
 	else
@@ -68,6 +72,7 @@ void Game::update()
 void Game::render()
 {
 	SDL_RenderClear(renderer);
+	map->DrawMap();
 	player->Render();
 	enemy->Render();
 	//SDL_RenderCopy(renderer, playerTex, NULL, &destRect); (это есть в gameobject через texturemanager) вторые два аргумента нужны для того, чтобы указать какую часть изображения вставлять в какую часть экрана.

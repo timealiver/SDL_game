@@ -1,9 +1,8 @@
 #include "GameObject.hpp"
 #include "TextureManager.hpp"
-GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren,int x,int y) 
+GameObject::GameObject(const char* texturesheet,  int x,int y) 
 {
-	renderer = ren; // в классе оставляем визуализатор, которым будем пользоваться
-	objTexture = TextureManager::LoadTexture(texturesheet, ren); // Создаем текстуру с помощью её адреса (texturesheet-адрес)
+	objTexture = TextureManager::LoadTexture(texturesheet); // Создаем текстуру с помощью её адреса (texturesheet-адрес)
 	xpos = x;
 	ypos = y;
 }
@@ -25,5 +24,5 @@ void GameObject::Update()
 }
 void GameObject::Render()
 {
-	SDL_RenderCopy(renderer,objTexture,&srcRect,&destRect); // Копирует часть (srcRect) текстуры на текущий фон, или, иными словамии, на цель визуализации ( что вернее).
+	SDL_RenderCopy(Game::renderer,objTexture,&srcRect,&destRect); // Копирует часть (srcRect) текстуры на текущий фон, или, иными словамии, на цель визуализации ( что вернее).
 }
